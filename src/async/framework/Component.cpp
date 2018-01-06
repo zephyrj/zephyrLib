@@ -8,7 +8,7 @@ std::atomic<long> Component::NEXT_COMPONENT_ID(1);
 Component::Component(Framework &framework, const std::string &componentName)
     : framework(framework),
       id(NEXT_COMPONENT_ID.fetch_add(1, std::memory_order_release)),
-      name(componentName)
+      name(componentName+std::to_string(id))
 {
   framework.componentAdded(this);
 }

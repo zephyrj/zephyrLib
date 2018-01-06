@@ -1,5 +1,5 @@
-#ifndef ZEPHYR_FRAMEWORK_H
-#define ZEPHYR_FRAMEWORK_H
+#ifndef ZEPHYR_ASYNC_FRAMEWORK_HPP
+#define ZEPHYR_ASYNC_FRAMEWORK_HPP
 
 #include <memory>
 #include <type_traits>
@@ -12,7 +12,7 @@
 
 namespace zephyr { namespace async {
 
-namespace framework{ class Component; }
+namespace framework { class Component; }
 
 class Framework
 {
