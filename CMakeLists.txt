@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.8)
 project(zephyrLib)
 
+set(EXT_PROJECTS_DIR ${PROJECT_SOURCE_DIR}/externalProjects)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmakeModules)
-message(${CMAKE_MODULE_PATH})
 
 set(LINKTIME_OPTIMIZATION_FLAG "-flto")
 
@@ -17,6 +17,11 @@ set(FUTURE_GCC_FLAGS "-fdiagnostics-show-template-tree -Wcatch-value=3 -Wextra-s
 set(GCC_COMPILATION_FLAGS "${GCC_OPTION_FLAGS} ${GCC_WARNING_FLAGS} ${GCC_DEBUG_SPECIFIC_FLAGS}")
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COMPILATION_FLAGS}")
+
+# Includes Catch in the project:
+add_subdirectory(${EXT_PROJECTS_DIR}/catch)
+include_directories(${CATCH_INCLUDE_DIR} ${COMMON_INCLUDES})
+enable_testing(true)  # Enables unit-testing.
 
 SET(BOOST_ROOT "/usr/local/boost/")
 find_package( Boost REQUIRED system )
