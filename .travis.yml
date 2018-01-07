@@ -8,8 +8,10 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
+            - nschloe/cmake-nightly
           packages:
             - g++-7
+            - cmake-3.10
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
@@ -19,8 +21,10 @@ matrix:
           apt:
             sources:
               - llvm-toolchain-trusty-5.0
+              - nschloe/cmake-nightly
             packages:
               - clang-5.0
+              - cmake-3.10
         env:
           - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
 
