@@ -7,26 +7,17 @@ matrix:
       addons:
         apt:
           sources:
-            - ubuntu-toolchain-r-test
-            - nschloe/cmake-nightly
+            - ubuntu-toolchain-r-tes
+            - llvm-toolchain-trusty-5.0
+            - sourceline: 'ppa:nschloe/cmake-nightly'
           packages:
             - g++-7
+            - clang-5.0
             - cmake-3.10
-      env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
-      # works on Trusty
-      - os: linux
-        addons:
-          apt:
-            sources:
-              - llvm-toolchain-trusty-5.0
-              - nschloe/cmake-nightly
-            packages:
-              - clang-5.0
-              - cmake-3.10
-        env:
-          - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+compiler:
+  - clang
+  - gcc
 
 before_script:
     - eval "${MATRIX_EVAL}"
