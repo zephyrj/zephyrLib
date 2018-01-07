@@ -1,20 +1,24 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.10)
 project(zephyrLib)
 
 set(EXT_PROJECTS_DIR ${PROJECT_SOURCE_DIR}/externalProjects)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmakeModules)
 
 set(CMAKE_CXX_STANDARD 17)
-set(GCC_OPTION_FLAGS "-std=c++1z -fopenacc -fvisibility-inlines-hidden -fdiagnostics-generate-patch")
-set(GCC_WARNING_FLAGS "-Wall -Weffc++ -Wextra -Wnoexcept -Wformat -Wold-style-cast -Woverloaded-virtual -Wnull-dereference -Wimplicit-fallthrough -Wmissing-include-dirs -Wunused-parameter -Wuninitialized -Wsuggest-attribute=pure -Wsuggest-attribute=const -Wsuggest-attribute=noreturn -Wsuggest-attribute=format -Wmissing-format-attribute  -Wsuggest-final-types -Wsuggest-final-methods -Wsuggest-override -Walloc-zero -Wduplicated-branches -Wduplicated-cond -Wtrampolines -Wfloat-equal -Wshadow=compatible-local -Wpointer-arith -Wundef -Wcast-qual -Wcast-align -Wconversion -Wzero-as-null-pointer-constant -Wuseless-cast -Wmissing-declarations -Wpacked -Wredundant-decls -Wdisabled-optimization")
-set(GCC_RELEASE_SPECIFIC_FLAGS "-ggdb3 -Og")
-set(GCC_DEBUG_SPECIFIC_FLAGS "-ggdb3 -Og")
 
-set(FUTURE_GCC_FLAGS "-fdiagnostics-show-template-tree -Wcatch-value=3 -Wextra-semi")
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+# clang compiler options
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set(GCC_OPTION_FLAGS "-fvisibility-inlines-hidden -fdiagnostics-generate-patch")
+    set(GCC_WARNING_FLAGS "-Wall -Weffc++ -Wextra -Wnoexcept -Wformat -Wold-style-cast -Woverloaded-virtual -Wnull-dereference -Wimplicit-fallthrough -Wmissing-include-dirs -Wunused-parameter -Wuninitialized -Wsuggest-attribute=pure -Wsuggest-attribute=const -Wsuggest-attribute=noreturn -Wsuggest-attribute=format -Wmissing-format-attribute  -Wsuggest-final-types -Wsuggest-final-methods -Wsuggest-override -Walloc-zero -Wduplicated-branches -Wduplicated-cond -Wtrampolines -Wfloat-equal -Wshadow=compatible-local -Wpointer-arith -Wundef -Wcast-qual -Wcast-align -Wconversion -Wzero-as-null-pointer-constant -Wuseless-cast -Wmissing-declarations -Wpacked -Wredundant-decls -Wdisabled-optimization")
+    set(GCC_RELEASE_SPECIFIC_FLAGS "-ggdb3 -Og")
+    set(GCC_DEBUG_SPECIFIC_FLAGS "-ggdb3 -Og")
 
-set(GCC_COMPILATION_FLAGS "${GCC_OPTION_FLAGS} ${GCC_WARNING_FLAGS} ${GCC_DEBUG_SPECIFIC_FLAGS}")
+    set(FUTURE_GCC_FLAGS "-fdiagnostics-show-template-tree -Wcatch-value=3 -Wextra-semi")
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COMPILATION_FLAGS}")
+    set(GCC_COMPILATION_FLAGS "${GCC_OPTION_FLAGS} ${GCC_WARNING_FLAGS} ${GCC_DEBUG_SPECIFIC_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COMPILATION_FLAGS}")
+endif()
 
 include(CheckIPOSupported)
 check_ipo_supported(RESULT supported OUTPUT error)
@@ -34,10 +38,13 @@ SET(BOOST_ROOT "/usr/local/boost/")
 find_package( Boost REQUIRED system )
 
 find_package(OpenMP)
-if(OpenMP_C_FOUND)
-    if(OpenMP_CXX_FOUND)
-        set(GCC_OPTION_FLAGS "${GCC_OPTION_FLAGS} ${OpenMP_CXX_FLAGS}")
-    endif()
+if(OpenMP_CXX_FOUND)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif()
+
+find_package(OpenACC)
+if(OpenACC_CXX_FOUND)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenACC_CXX_FLAGS}")
 endif()
 
 add_subdirectory(src/async)

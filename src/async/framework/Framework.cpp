@@ -74,4 +74,9 @@ void Framework::componentRemoved(framework::Component* component)
   components_mutex.unlock();
 }
 
+boost::asio::io_service &Framework::getIOService()
+{
+  return *io_service;
+}
+
 }}
