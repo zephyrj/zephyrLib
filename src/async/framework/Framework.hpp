@@ -41,7 +41,7 @@ public:
 private:
   static void workerThread(Framework *framework_p);
 
-  boost::asio::io_service &getIOService();
+  boost::asio::io_service &getIOService() __attribute__((pure));
 
   void componentAdded(framework::Component* component);
   void componentRemoved(framework::Component* component);

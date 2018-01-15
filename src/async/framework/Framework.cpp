@@ -1,6 +1,7 @@
 #include "Framework.hpp"
 #include <thread>
 #include <iostream>
+#include <algorithm>
 
 namespace zephyr { namespace async {
 

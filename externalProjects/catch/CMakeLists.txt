@@ -19,4 +19,5 @@ ExternalProject_Get_Property(catch source_dir)
 set(CATCH_INCLUDE_DIR ${source_dir}/single_include CACHE INTERNAL "Path to include folder for Catch")
 
 add_library(catchMain STATIC catchMain.cpp)
+add_dependencies(catchMain catch)
 target_include_directories(catchMain PUBLIC ${CATCH_INCLUDE_DIR})
