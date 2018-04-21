@@ -21,3 +21,4 @@ find_package( Boost REQUIRED system )
 
 add_subdirectory(src/async)
 add_subdirectory(src/comms)
+add_subdirectory(src/core)
