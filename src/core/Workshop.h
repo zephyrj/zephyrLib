@@ -2,6 +2,8 @@
 
 #include <memory>
 
+namespace zephyr { namespace core {
+
 class Workshop
 {
 public:
@@ -20,3 +22,5 @@ private:
   std::unique_ptr<WorkshopPremises> m_workshopPremises_p;
   
 };
+  
+}}

@@ -2,6 +2,8 @@
 
 #include <memory>
 
+namespace zephyr { namespace core {
+  
 class Director
 {
 public:
@@ -12,6 +14,8 @@ private:
   class Amy;
   using AppointedDirector = Amy;
   
-  std::unique_ptr<AppointedDirector> appointedDirector_p;
+  std::unique_ptr<AppointedDirector> m_appointedDirector_p;
   
 };
+  
+}}
