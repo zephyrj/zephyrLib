@@ -10,7 +10,7 @@ Workshop::~Workshop() = default;
 
 void Workshop::add_worker()
 {
-  
+  m_workshopPremises_p->add_worker();
 }
 
 void Workshop::add_to_work_queue()
