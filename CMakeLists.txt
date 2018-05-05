@@ -1,0 +1,1 @@
+/home/jon/CLionProjects/zephyrLib/build-config/basic/CMakeLists.txt
