@@ -1,20 +1,26 @@
 #ifndef ZEPHYR_ASYNC_FRAMEWORK_HPP
 #define ZEPHYR_ASYNC_FRAMEWORK_HPP
 
+#include <atomic>
 #include <memory>
-#include <type_traits>
-
-#include <boost/asio/io_service.hpp>
-
-#include <ScopedPointer.hpp>
 #include <mutex>
 #include <thread>
+#include <type_traits>
+#include <vector>
+
+#include <ScopedPointer.hpp>
+
+namespace boost { namespace asio {
+class io_service;
+}}
 
 namespace zephyr { namespace async {
 
-namespace framework { class Component; }
+namespace framework {
+class Component;
+}
 
-class Framework
+class Framework final
 {
   friend class framework::Component;
 
@@ -23,7 +29,7 @@ public:
   Framework(const Framework&) = delete;
   Framework& operator=( const Framework& ) = delete;
 
-  virtual ~Framework() = default;
+  ~Framework();
 
   void run();
   void shutdown();
@@ -51,10 +57,8 @@ private:
   mutable std::mutex components_mutex;
   std::vector<framework::Component*> components;
 
-  std::shared_ptr<boost::asio::io_service> io_service;
-  std::shared_ptr<boost::asio::io_service::work> io_service_work;
-
-  std::thread* worker_thread;
+  std::unique_ptr<boost::asio::io_service> io_service;
+  std::unique_ptr<std::thread> worker_thread;
 
 };
 

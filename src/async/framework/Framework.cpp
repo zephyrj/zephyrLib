@@ -1,7 +1,9 @@
 #include "Framework.hpp"
-#include <thread>
+
 #include <iostream>
 #include <algorithm>
+
+#include <boost/asio/io_service.hpp>
 
 namespace zephyr { namespace async {
 
@@ -24,16 +26,18 @@ Framework::Framework() :
     running(false),
     components_mutex(),
     components(),
-    io_service(new boost::asio::io_service()),
-    io_service_work(new boost::asio::io_service::work(*io_service)),
+    io_service(std::make_unique<boost::asio::io_service>()),
     worker_thread(nullptr)
 {}
+
+Framework::~Framework() = default;
 
 void Framework::run()
 {
   if (running == false)
   {
-    worker_thread = new std::thread(&workerThread, this);
+    boost::asio::use_service<boost::asio::detail::task_io_service>(*io_service).work_started();
+    worker_thread = std::make_unique<std::thread>(&workerThread, this);
     running = true;
   }
 }
@@ -42,9 +46,9 @@ void Framework::shutdown()
 {
   if (running == true)
   {
-    io_service_work.reset();
+    boost::asio::use_service<boost::asio::detail::task_io_service>(*io_service).work_finished();
     worker_thread->join();
-    delete worker_thread;
+    worker_thread.reset(nullptr);
     running = false;
   }
 }
