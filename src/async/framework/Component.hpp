@@ -15,7 +15,7 @@ class Component : protected std::enable_shared_from_this<Component>
   static std::atomic<long> NEXT_COMPONENT_ID;
 
 protected:
-  Component(Framework& framework, const std::string& componentName = "component");
+  explicit Component(Framework& framework, const std::string& componentName = "component");
 
 public:
   virtual ~Component();
