@@ -17,10 +17,12 @@ include_directories(${CATCH_INCLUDE_DIR} ${COMMON_INCLUDES})
 enable_testing(true)  # Enables unit-testing.
 
 SET(BOOST_ROOT "/usr/local/boost/")
-find_package( Boost REQUIRED system )
+find_package( Boost REQUIRED system thread )
 
 message("Found boost include directory: ${Boost_INCLUDE_DIRS}")
 message("Found boost system library: ${Boost_SYSTEM_LIBRARY}")
+message("Found boost thread library: ${Boost_THREAD_LIBRARY}")
+
 
 add_subdirectory(src/async)
 add_subdirectory(src/comms)
