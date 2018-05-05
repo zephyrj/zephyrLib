@@ -1,28 +1,15 @@
+dist: trusty
+
 language: cpp
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-7
+      - g++-7
 
-matrix:
-  include:
-# works on Precise and Trusty
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
-          packages:
-            - g++-7
-            - clang-5.0
-            - cmake
-
-compiler:
-  - gcc
-  - clang
-
-before_script:
-    - sudo apt-get update -qq
-    - sudo apt-get install libboost-thread-dev libboost-system-dev
-    - mkdir build
-    - cd build
-    - cmake ..
-
-script: make
+script:
+  - export CC=gcc-7
+  - export CXX=g++-7
+  - mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug ..
