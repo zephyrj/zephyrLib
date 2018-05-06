@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Secretary.h>
 
 namespace zephyr { namespace core {
