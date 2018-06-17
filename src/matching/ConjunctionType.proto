@@ -1,0 +1,7 @@
+package zephyr.matching;
+
+enum Conjunction
+{
+  AND = 0;
+  OR = 1;
+}
