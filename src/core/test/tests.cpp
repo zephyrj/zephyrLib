@@ -1,8 +1,9 @@
 #include <Workshop.h>
 #include <exception/Exception.h>
+#include <Director.h>
 #include "catch.hpp"
 
-TEST_CASE("Basic usage")
+TEST_CASE("Basic Workshop usage")
 {
   auto i = 0;
   zephyr::core::Workshop workshop;
@@ -33,4 +34,15 @@ TEST_CASE("Basic usage")
     }
     REQUIRE(i == 1);
   }
+}
+
+TEST_CASE("Basic Director usage")
+{
+  auto i = 0;
+  zephyr::core::Workshop workshop;
+  zephyr::core::Director director(&workshop);
+  director.schedule_work([&i](){ i++; });
+  director.start_work();
+  director.stop_work();
+  REQUIRE(i == 1);
 }
