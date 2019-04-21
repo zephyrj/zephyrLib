@@ -1,19 +1,22 @@
 dist: trusty
-
 language: cpp
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+    - ubuntu-toolchain-r-test
     packages:
-      - gcc-7
-      - g++-7
+    - gcc-7
+    - g++-7
+  sonarcloud:
+    organization: "zephyrj-github"
+    token:
+      secure: qyCxLBme8eI1tWxNAaMrjpE9Msyp5Hx0tVqJjkJninQJvKFt+vEfl5DVVz8BS+jZ32i22KFWI7asEm9iPApqs6dHpF+Dsgv7Wl+wqGAyzFfLCJurNeArJHjd0O0dD8CA3b0yxTjPfGi1yRrwybx7N5ZmRg23ee+p9wtPP6kaZVjxDNzbuW2SFhsWE2Zni+5IRWfxKnIxPrIts4cDWzKinB8Hs9Z4sqhLGMRR4aKVubHGsPZ3BnA5b0+XTJ3R9+ND5b5TbP2/cE2R22WOvuMhLhjdK28elG6RSjaGAk5XnRk3htpXGKqCzcXKao7R99vOIh0VPypT4UDcXszSOhxnQ0bdnQ480DnlNz5GGQotMeVyividck/9PRSkec/mTu3sXkvNW01UBUH4XS6CN+sEWJGqscUORNmad8s67Ny5S/x7Va/z+UE77Q2VR/bzALoMGylcb3926Tw6c0fczQ1TPC0TNmPlOsmpOoIjRZykyT61bCGuL62JkuOaZ59+rdZl7/DTV0gQVUnY4CpkKZzmHRAhGxNExE1TuSjBsH2V1xOy8GpIkZcCrjgK6EE/a49UVNWdUTL+4x45FcLW1fp0SZ4CPO7S5N7aj03tf52yEVQZIyOmKwnJzPvNNjcfQKGyIj3FSAXAv932/5AIy7wbawyzyH8//2u12dUoyNeGE/c=
 
 before_script:
-    - sudo apt-get update -qq
-    - sudo apt-get install libboost-thread-dev libboost-system-dev libprotobuf-dev protobuf-compiler
-
+- sudo apt-get update -qq
+- sudo apt-get install libboost-thread-dev libboost-system-dev libprotobuf-dev protobuf-compiler
 script:
-  - export CC=gcc-7
-  - export CXX=g++-7
-  - mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug .. && make && make test
+- export CC=gcc-7
+- export CXX=g++-7
+- mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug .. && make && make test
+- sonar-scanner
