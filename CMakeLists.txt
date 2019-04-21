@@ -16,7 +16,6 @@ add_subdirectory(${EXT_PROJECTS_DIR}/catch)
 include_directories(${CATCH_INCLUDE_DIR} ${COMMON_INCLUDES})
 enable_testing(true)  # Enables unit-testing.
 
-SET(BOOST_ROOT "/usr/local/boost/")
 find_package( Boost REQUIRED system thread )
 
 message("Found boost include directory: ${Boost_INCLUDE_DIRS}")
