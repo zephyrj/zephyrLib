@@ -18,7 +18,8 @@ public:
   void add_worker();
   void add_worker(zephyr::core::result::code& rc);
 
-  void add_to_work_queue();
+  void add_to_work_queue(const std::function<void(void)>& workItem);
+  void add_to_work_queue(std::function<void(void)>&& workItem);
   
   size_t get_number_of_workers();
   

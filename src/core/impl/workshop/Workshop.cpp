@@ -36,8 +36,15 @@ void Workshop::add_worker(zephyr::core::result::code& rc)
   }
 }
 
-void Workshop::add_to_work_queue()
-{}
+void Workshop::add_to_work_queue(const std::function<void(void)>& workItem)
+{
+  m_workshopPremises_p->add_to_work_queue(workItem);
+}
+
+void Workshop::add_to_work_queue(std::function<void(void)> &&workItem)
+{
+  m_workshopPremises_p->add_to_work_queue(std::move(workItem));
+}
   
 size_t Workshop::get_number_of_workers()
 {

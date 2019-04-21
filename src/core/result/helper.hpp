@@ -40,4 +40,33 @@ struct helper<result::MAX_WORKER_LIMIT_REACHED>
   }
 };
 
+template <>
+struct helper<result::NO_ACTIVE_WORKERS>
+{
+  static constexpr const char *get_error_string()
+  {
+    return "No active workers";
+  }
+};
+
+template <>
+struct helper<result::ALREADY_IN_PROGRESS>
+{
+  static constexpr const char *get_error_string()
+  {
+    return "Already in-progress";
+  }
+};
+
+template <>
+struct helper<result::NOT_IN_PROGRESS>
+{
+  static constexpr const char *get_error_string()
+  {
+    return "Not in-progress";
+  }
+};
+
+
+
 }}}
