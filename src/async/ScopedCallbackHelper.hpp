@@ -56,7 +56,7 @@ class ScopedCallbackHelper final
 {
 public:
   ScopedCallbackHelper() : m_can_execute_callbacks(std::make_shared<std::atomic_bool>(true)),
-                           m_callback_in_progress_execution_mutex()
+                           m_callback_in_progress_execution_mutex(std::make_shared<boost::shared_mutex>())
   {}
 
   ~ScopedCallbackHelper()
