@@ -2,6 +2,8 @@
 
 #include <Schema.h>
 
+#include <unordered_map>
+
 #include "boost/variant.hpp"
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/exception.hpp>
@@ -15,18 +17,44 @@ public:
   ~GraphImpl();
 
 private:
+  /*!
+   * Concepts are vertices within the graph (the nodes)
+   */
   struct concept_definition
   {
     std::string identifier;
     std::unique_ptr<GraphImpl> schema;
   };
 
+  /*!
+   * Associations are the edges within the graph (the lines between nodes)
+   */
   struct association_definition
   {
     enum type {
+      /*!
+       * https://en.wikipedia.org/wiki/Contiguity_(psychology)
+       * Association by contiguity is the principle that ideas, memories, and experiences are linked when one is
+       * frequently experienced with the other.
+       * For example, if you constantly see a knife and a fork together they become linked (associated).
+       * The more these two items (stimuli) are perceived together the stronger the link between them
+       */
       CONTIGUITY,
+
+      /*!
+       * https://en.wikipedia.org/wiki/Similarity_(psychology)
+       * Similarity refers to the psychological nearness or proximity of two mental representations
+       * Similarity is not symmetric; we often prefer to state similarity in one direction.
+       * For example, it feels more natural to say that 101 is like 100 than to say that 100 is like 101
+       */
       SIMILARITY,
+
+      /*!
+       * This is almost the opposite of similarity; things can be linked because they significantly contrast
+       * with each other. For example: black and white, rich and poor
+       */
       CONTRAST
+
     };
     int strength;
   };
@@ -37,19 +65,9 @@ private:
   using ConceptIterator = boost::graph_traits<Schema>::vertex_iterator;
 
   using Association = Schema::edge_descriptor;
-  using AssociationIterator =  boost::graph_traits<Schema>::adjacency_iterator;
-
-  // likelihood of fitting new info into existing schema. antonym would be prejudice
-  int assimilation_tendency;
-  // likelihood of creating a new schema to accommodate new info
-  int accommodation_tendency;
+  using AssociationIterator = boost::graph_traits<Schema>::adjacency_iterator;
 
   std::unordered_multimap<std::string, boost::variant<int, std::string>> attributes;
-
-  enum state {
-    EQUALIBRIUM = 0,
-    DISEQUALIBRIUM
-  };
 
 };
 
