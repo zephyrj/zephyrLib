@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <functional>
 
 namespace zephyr { namespace core {
 class Workshop;
